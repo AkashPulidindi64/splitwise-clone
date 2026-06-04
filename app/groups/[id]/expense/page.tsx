@@ -6,11 +6,9 @@ import { useParams } from "next/navigation";
 export default function AddExpensePage() {
   const params = useParams();
 
-  const [description, setDescription] =
-    useState("");
-
-  const [amount, setAmount] =
-    useState("");
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [splitType, setSplitType] = useState("EQUAL");
 
   const handleSubmit = async (
     e: React.FormEvent
@@ -28,6 +26,7 @@ export default function AddExpensePage() {
         body: JSON.stringify({
           description,
           amount,
+          splitType,
           groupId: params.id,
           payerId:
             "cmpyaqdj70003tvtnnlj0g1gs",
@@ -35,10 +34,7 @@ export default function AddExpensePage() {
       }
     );
 
-    const data =
-      await response.json();
-
-    console.log(data);
+    await response.json();
 
     alert("Expense Added");
   };
@@ -59,11 +55,9 @@ export default function AddExpensePage() {
             placeholder="Description"
             value={description}
             onChange={(e) =>
-              setDescription(
-                e.target.value
-              )
+              setDescription(e.target.value)
             }
-            className="w-full p-3 border-2 border-gray-400 rounded-lg text-black"
+            className="w-full p-3 border rounded text-black"
           />
 
           <input
@@ -73,12 +67,36 @@ export default function AddExpensePage() {
             onChange={(e) =>
               setAmount(e.target.value)
             }
-            className="w-full p-3 border-2 border-gray-400 rounded-lg text-black"
+            className="w-full p-3 border rounded text-black"
           />
+
+          <select
+            value={splitType}
+            onChange={(e) =>
+              setSplitType(e.target.value)
+            }
+            className="w-full p-3 border rounded text-black"
+          >
+            <option value="EQUAL">
+              Equal
+            </option>
+
+            <option value="UNEQUAL">
+              Unequal
+            </option>
+
+            <option value="PERCENTAGE">
+              Percentage
+            </option>
+
+            <option value="SHARE">
+              Share
+            </option>
+          </select>
 
           <button
             type="submit"
-            className="w-full bg-black text-white p-3 rounded-lg"
+            className="w-full bg-black text-white p-3 rounded"
           >
             Add Expense
           </button>

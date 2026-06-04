@@ -6,6 +6,7 @@ export async function POST(req: Request) {
     const {
       description,
       amount,
+      splitType,
       groupId,
       payerId,
     } = await req.json();
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
         data: {
           description,
           amount: Number(amount),
-          splitType: "EQUAL",
+          splitType,
           groupId,
           payerId,
         },
