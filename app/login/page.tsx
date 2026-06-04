@@ -1,4 +1,47 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 export default function LoginPage() {
+  const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (
+    e: React.FormEvent
+  ) => {
+    e.preventDefault();
+
+    const response = await fetch(
+      "/api/auth/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }
+    );
+
+    const data =
+      await response.json();
+
+    console.log(data);
+
+    if (response.ok) {
+      alert("Login Successful");
+      router.push("/dashboard");
+    } else {
+      alert("Invalid Credentials");
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg border border-gray-300">
@@ -6,22 +49,35 @@ export default function LoginPage() {
           Login
         </h1>
 
-        <form className="space-y-4">
+        <form
+          onSubmit={handleLogin}
+          className="space-y-4"
+        >
           <input
             type="email"
             placeholder="Enter your email"
-            className="w-full p-3 border-2 border-gray-400 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:border-black"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+            className="w-full p-3 border-2 border-gray-400 rounded-lg text-black"
           />
 
           <input
             type="password"
             placeholder="Enter your password"
-            className="w-full p-3 border-2 border-gray-400 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:border-black"
+            value={password}
+            onChange={(e) =>
+              setPassword(
+                e.target.value
+              )
+            }
+            className="w-full p-3 border-2 border-gray-400 rounded-lg text-black"
           />
 
           <button
             type="submit"
-            className="w-full bg-black text-white p-3 rounded-lg font-semibold hover:bg-gray-800"
+            className="w-full bg-black text-white p-3 rounded-lg"
           >
             Login
           </button>

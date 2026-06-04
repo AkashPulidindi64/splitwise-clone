@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
   const [name, setName] = useState("");
@@ -11,7 +12,7 @@ export default function SignupPage() {
     e: React.FormEvent
   ) => {
     e.preventDefault();
-
+    const router = useRouter();
     const response = await fetch(
       "/api/auth/signup",
       {
@@ -34,6 +35,7 @@ export default function SignupPage() {
     console.log(data);
 
     alert("Signup Successful");
+router.push("/dashboard");
   };
 
   return (
