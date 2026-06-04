@@ -4,15 +4,22 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const [name, setName] =
+    useState("");
+
+  const [email, setEmail] =
+    useState("");
+
+  const [password, setPassword] =
+    useState("");
 
   const handleSignup = async (
     e: React.FormEvent
   ) => {
     e.preventDefault();
-    const router = useRouter();
+
     const response = await fetch(
       "/api/auth/signup",
       {
@@ -34,8 +41,12 @@ export default function SignupPage() {
 
     console.log(data);
 
-    alert("Signup Successful");
-router.push("/dashboard");
+    if (response.ok) {
+      alert("Signup Successful");
+      router.push("/dashboard");
+    } else {
+      alert("Signup Failed");
+    }
   };
 
   return (
@@ -56,7 +67,7 @@ router.push("/dashboard");
             onChange={(e) =>
               setName(e.target.value)
             }
-            className="w-full p-3 border-2 border-gray-400 rounded-lg"
+            className="w-full p-3 border-2 border-gray-400 rounded-lg text-black"
           />
 
           <input
@@ -66,7 +77,7 @@ router.push("/dashboard");
             onChange={(e) =>
               setEmail(e.target.value)
             }
-            className="w-full p-3 border-2 border-gray-400 rounded-lg"
+            className="w-full p-3 border-2 border-gray-400 rounded-lg text-black"
           />
 
           <input
@@ -78,7 +89,7 @@ router.push("/dashboard");
                 e.target.value
               )
             }
-            className="w-full p-3 border-2 border-gray-400 rounded-lg"
+            className="w-full p-3 border-2 border-gray-400 rounded-lg text-black"
           />
 
           <button

@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function NewGroupPage() {
+  const router = useRouter();
+
   const [name, setName] = useState("");
 
   const handleCreateGroup = async (
@@ -31,7 +34,12 @@ export default function NewGroupPage() {
 
     console.log(data);
 
-    alert("Group Created");
+    if (response.ok) {
+      alert("Group Created");
+      router.push("/dashboard");
+    } else {
+      alert("Failed to create group");
+    }
   };
 
   return (
